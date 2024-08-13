@@ -1,3 +1,7 @@
 langchain
 langchain_openai
 ipykernel
+langchain-chroma
+bs4
+langchain-community
+langgraph
