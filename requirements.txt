@@ -5,3 +5,5 @@ langchain-chroma
 bs4
 langchain-community
 langgraph
+youtube_transcript_api
+pytube
