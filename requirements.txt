@@ -8,3 +8,4 @@ langgraph
 youtube_transcript_api
 pytube
 langchain_chroma
+faiss-cpu
