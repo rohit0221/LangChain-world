@@ -12,3 +12,8 @@ faiss-cpu
 ionic_langchain
 langchainhub
 tavily-python
+langchain_experimental
+Pillow
+pypdfium2
+open_clip_torch 
+torch
