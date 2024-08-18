@@ -10,3 +10,4 @@ pytube
 langchain_chroma
 faiss-cpu
 ionic_langchain
+langchainhub
