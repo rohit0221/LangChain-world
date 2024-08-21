@@ -17,3 +17,10 @@ Pillow
 pypdfium2
 open_clip_torch 
 torch
+unstructured[all-docs]
+pydantic
+lxml
+tiktoken
+chromadb
+matplotlib
+numexpr
