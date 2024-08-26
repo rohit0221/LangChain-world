@@ -24,3 +24,4 @@ tiktoken
 chromadb
 matplotlib
 numexpr
+cassio
