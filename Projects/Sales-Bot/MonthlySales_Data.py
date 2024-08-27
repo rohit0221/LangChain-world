@@ -32,7 +32,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# @tool
+@tool
 def fetch_data_by_year(df, year):
     """
     Fetches data for a specific year from the DataFrame called "MonthlySales_df"
@@ -76,7 +76,7 @@ def fetch_data_by_date_range(df, start_date, end_date):
     """
     return df[(df['month'] >= start_date) & (df['month'] <= end_date)].reset_index(drop=True)
 
-# @tool
+@tool
 def plot_sales_revenue(df):
     """
     Plots a line chart of monthly sales volume and revenue.
