@@ -144,21 +144,15 @@ def plot_avg_price_per_unit():
 @tool
 def plot_heatmap_sales_revenue():
     """
-    Plots a heatmap of monthly sales revenue, with sales volume units as the columns.
+    Plots a heatmap of monthly sales data.
     
-    Args:
-    df (pd.DataFrame): The DataFrame containing the sales data.
-    
-    Returns:
-    None: Displays a heatmap of monthly sales revenue.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
-    pivot_sales = df.pivot("month", "sales_volume_units", "revenue_million_usd")
-    
+    df_pivot = df.pivot_table(values='revenue_million_usd', index='month', columns='average_price_per_unit_usd')
     plt.figure(figsize=(12, 8))
-    sns.heatmap(pivot_sales, annot=True, cmap='YlGnBu', fmt='.2f', linewidths=0.5)
-    plt.title('Heatmap of Monthly Sales Revenue')
-    plt.xlabel('Sales Volume Units')
+    sns.heatmap(df_pivot, cmap='YlGnBu', annot=True, fmt='.1f', linewidths=.5)
+    plt.title('Heatmap of Monthly Revenue by Average Price Per Unit')
+    plt.xlabel('Average Price Per Unit (USD)')
     plt.ylabel('Month')
     plt.show()
 
