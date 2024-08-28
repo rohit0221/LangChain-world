@@ -45,6 +45,7 @@ def fetch_data_by_year(year):
     pd.DataFrame: Filtered DataFrame containing data for the specified year.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
+
     return df[df['month'].str.contains(str(year))].reset_index(drop=True)
 
 @tool
@@ -80,7 +81,7 @@ def fetch_data_by_date_range(start_date, end_date):
     return df[(df['month'] >= start_date) & (df['month'] <= end_date)].reset_index(drop=True)
 
 @tool
-def plot_sales_revenue():
+def plot_sales_revenue(df):
     """
     Plots a line chart of monthly sales volume and revenue.
     
@@ -90,10 +91,9 @@ def plot_sales_revenue():
     Returns:
     None: Displays a line chart with sales volume and revenue.
     """
-    df = pd.read_csv('MonthlySales_Data.csv')
     plt.figure(figsize=(12, 6))
-    sns.lineplot(data=df, x='month', y='sales_volume_units', marker='o', label='Sales Volume')
-    sns.lineplot(data=df, x='month', y='revenue_million_usd', marker='o', label='Revenue')
+    sns.lineplot(data=x='month', y='sales_volume_units', marker='o', label='Sales Volume')
+    sns.lineplot(data=x='month', y='revenue_million_usd', marker='o', label='Revenue')
     plt.xticks(rotation=45)
     plt.title('Monthly Sales Volume and Revenue')
     plt.xlabel('Month')
@@ -102,7 +102,7 @@ def plot_sales_revenue():
     plt.show()
 
 @tool
-def plot_monthly_revenue():
+def plot_monthly_revenue(df):
     """
     Plots a bar chart of monthly revenue.
     
@@ -114,7 +114,7 @@ def plot_monthly_revenue():
     """
     df = pd.read_csv('MonthlySales_Data.csv')
     plt.figure(figsize=(12, 6))
-    sns.barplot(data=df, x='month', y='revenue_million_usd', palette='viridis')
+    sns.barplot(data=x='month', y='revenue_million_usd', palette='viridis')
     plt.xticks(rotation=45)
     plt.title('Monthly Revenue')
     plt.xlabel('Month')
@@ -122,7 +122,7 @@ def plot_monthly_revenue():
     plt.show()
 
 @tool
-def plot_avg_price_per_unit():
+def plot_avg_price_per_unit(df):
     """
     Plots a line chart of the average price per unit over time.
     
@@ -134,7 +134,7 @@ def plot_avg_price_per_unit():
     """
     df = pd.read_csv('MonthlySales_Data.csv')
     plt.figure(figsize=(12, 6))
-    sns.lineplot(data=df, x='month', y='average_price_per_unit_usd', marker='o', color='orange')
+    sns.lineplot(data=x='month', y='average_price_per_unit_usd', marker='o', color='orange')
     plt.xticks(rotation=45)
     plt.title('Average Price per Unit Over Time')
     plt.xlabel('Month')
@@ -142,7 +142,7 @@ def plot_avg_price_per_unit():
     plt.show()
 
 @tool
-def plot_heatmap_sales_revenue():
+def plot_heatmap_sales_revenue(df):
     """
     Plots a heatmap of monthly sales revenue, with sales volume units as the columns.
     
@@ -163,7 +163,7 @@ def plot_heatmap_sales_revenue():
     plt.show()
 
 @tool
-def plot_correlation_heatmap():
+def plot_correlation_heatmap(df):
     """
     Plots a heatmap showing the correlation between sales volume, revenue, and average price per unit.
     
@@ -182,7 +182,7 @@ def plot_correlation_heatmap():
     plt.show()
 
 @tool
-def monthly_summary():
+def monthly_summary(df):
     """
     Provides a summary of monthly statistics including mean and sum of sales volume, revenue, and average price per unit.
     
@@ -202,7 +202,7 @@ def monthly_summary():
     return summary.reset_index()
 
 @tool
-def yearly_summary():
+def yearly_summary(df):
     """
     Provides a summary of yearly statistics including mean and sum of sales volume, revenue, and average price per unit.
     
