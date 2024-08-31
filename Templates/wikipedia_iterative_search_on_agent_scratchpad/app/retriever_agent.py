@@ -7,7 +7,7 @@ from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from agent_scratchpad import format_agent_scratchpad
 from output_parser import parse_output
 from prompts import retrieval_prompt
-from retriever import retriever_description, search
+from wikipedia_retriever import retriever_description, search
 
 prompt = ChatPromptTemplate.from_messages(
     [
