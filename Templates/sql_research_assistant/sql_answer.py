@@ -10,7 +10,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI
 
 # Add the LLM downloaded from Ollama
-ollama_llm = "llama2"
+# ollama_llm = "llama2"
 # llm = ChatOllama(model=ollama_llm)
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
@@ -94,3 +94,5 @@ sql_answer_chain = (
     )
     | (lambda x: f"Question: {x['question']}\n\nAnswer: {x['answer']}")
 )
+
+sql_answer_chain.invoke({"question": "How many employees are there?"})

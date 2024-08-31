@@ -15,7 +15,7 @@ from langchain_core.runnables import (
     RunnablePassthrough,
 )
 
-from search.sql_answer import sql_answer_chain
+from sql_answer import sql_answer_chain
 
 RESULTS_PER_QUESTION = 3
 
