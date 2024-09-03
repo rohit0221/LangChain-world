@@ -7,6 +7,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
+import ast
 
 file_formats = {
     "csv": pd.read_csv,
@@ -21,6 +22,17 @@ def clear_submit():
     Clear the Submit Button State
     """
     st.session_state["submit"] = False
+
+def is_valid_code(code: str) -> bool:
+    """
+    Validate the given code string for correct Python syntax.
+    """
+    try:
+        ast.parse(code)
+        return True
+    except SyntaxError as e:
+        print(f"SyntaxError: {e}")
+        return False
 
 st.set_page_config(page_title="LangChain: Chat with pandas DataFrame", page_icon="🦜")
 st.title("🦜 LangChain: Chat with pandas DataFrame")
@@ -72,13 +84,15 @@ if prompt := st.chat_input(placeholder="What is this data about?"):
             print("here is the cleannnnnnnnnnnnnnn code:\n")
             print(code_block)
             for code in code_block:
-                exec_globals = {'pd': pd, 'plt': plt, 'sns': sns}
-                print(code)
-                exec(code,exec_globals)
-                st.pyplot(plt)
-                plt.clf()
+                if is_valid_code(code):
+                    exec_globals = {'pd': pd, 'plt': plt, 'sns': sns}
+                    print(code)
+                    exec(code, exec_globals)
+                    st.pyplot(plt)
+                    plt.clf()
+                else:
+                    print("Invalid code detected. Skipping execution.")
             
-            # exec(code_block,exec_globals)
             print("Plotting attempted!!!!!!!!!!!!!!!!!!!!!!!")
         else:
             st.session_state.messages.append({"role": "assistant", "content": response})
