@@ -31,6 +31,9 @@ MonthlySalesData_chain = prompt | model | parser
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import io
+import base64
+import os
 
 @tool
 def fetch_data_by_year(year):
@@ -88,92 +91,117 @@ def plot_sales_revenue():
     df (pd.DataFrame): The DataFrame containing the sales data.
     
     Returns:
-    None: Displays a line chart with sales volume and revenue.
+    matplotlib.figure.Figure: The generated figure object.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(data=df, x='month', y='sales_volume_units', marker='o', label='Sales Volume')
-    sns.lineplot(data=df, x='month', y='revenue_million_usd', marker='o', label='Revenue')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(data=df, x='month', y='sales_volume_units', marker='o', label='Sales Volume', ax=ax)
+    sns.lineplot(data=df, x='month', y='revenue_million_usd', marker='o', label='Revenue', ax=ax)
     plt.xticks(rotation=45)
     plt.title('Monthly Sales Volume and Revenue')
     plt.xlabel('Month')
     plt.ylabel('Amount')
     plt.legend()
-    plt.show()
+    return fig
 
 @tool
 def plot_monthly_revenue():
     """
     Plots a bar chart of monthly revenue.
     
-    Args:
-    df (pd.DataFrame): The DataFrame containing the sales data.
-    
     Returns:
-    None: Displays a bar chart of monthly revenue.
+    matplotlib.figure.Figure: The generated figure object.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
-    plt.figure(figsize=(12, 6))
-    sns.barplot(data=df, x='month', y='revenue_million_usd', palette='viridis')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.barplot(data=df, x='month', y='revenue_million_usd', palette='viridis', ax=ax)
     plt.xticks(rotation=45)
     plt.title('Monthly Revenue')
     plt.xlabel('Month')
     plt.ylabel('Revenue (Million USD)')
-    plt.show()
+    return fig
 
 @tool
 def plot_avg_price_per_unit():
     """
     Plots a line chart of the average price per unit over time.
     
-    Args:
-    df (pd.DataFrame): The DataFrame containing the sales data.
-    
     Returns:
-    None: Displays a line chart of average price per unit.
+    matplotlib.figure.Figure: The generated figure object.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
-    plt.figure(figsize=(12, 6))
-    sns.lineplot(data=df, x='month', y='average_price_per_unit_usd', marker='o', color='orange')
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.lineplot(data=df, x='month', y='average_price_per_unit_usd', marker='o', color='orange', ax=ax)
     plt.xticks(rotation=45)
     plt.title('Average Price per Unit Over Time')
     plt.xlabel('Month')
     plt.ylabel('Average Price per Unit (USD)')
-    plt.show()
+    return fig
+
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import traceback
+from pathlib import Path
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
 
 @tool
 def plot_heatmap_sales_revenue():
     """
-    Plots a heatmap of monthly sales data.
-    
+    Creates a heatmap of monthly sales data and returns it as a base64 encoded string.
+
+    Returns:
+    dict: A dictionary containing the base64 encoded image and a message.
     """
-    df = pd.read_csv('MonthlySales_Data.csv')
-    df_pivot = df.pivot_table(values='revenue_million_usd', index='month', columns='average_price_per_unit_usd')
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(df_pivot, cmap='YlGnBu', annot=True, fmt='.1f', linewidths=.5)
-    plt.title('Heatmap of Monthly Revenue by Average Price Per Unit')
-    plt.xlabel('Average Price Per Unit (USD)')
-    plt.ylabel('Month')
-    plt.show()
+    try:
+        df = pd.read_csv('MonthlySales_Data.csv')
+        df_pivot = df.pivot_table(values='revenue_million_usd', index='month', columns='average_price_per_unit_usd')
+        fig, ax = plt.subplots(figsize=(12, 8))
+        sns.heatmap(df_pivot, cmap='YlGnBu', annot=True, fmt='.1f', linewidths=.5, ax=ax)
+        ax.set_title('Heatmap of Monthly Revenue by Average Price Per Unit')
+        ax.set_xlabel('Average Price Per Unit (USD)')
+        ax.set_ylabel('Month')
+
+        # Save the plot to a bytes buffer
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        
+        # Encode the bytes as base64
+        img_str = base64.b64encode(buf.getvalue()).decode()
+        
+        plt.close(fig)  # Close the figure to prevent display in notebooks
+        
+        return {
+            "image": img_str,
+            "message": "Heatmap figure created successfully. Use the provided base64 string to display the image."
+        }
+    except Exception as e:
+        return {
+            "image": None,
+            "message": f"Failed to create heatmap: {str(e)}"
+        }
 
 @tool
 def plot_correlation_heatmap():
     """
     Plots a heatmap showing the correlation between sales volume, revenue, and average price per unit.
     
-    Args:
-    df (pd.DataFrame): The DataFrame containing the sales data.
-    
     Returns:
-    None: Displays a correlation heatmap.
+    matplotlib.figure.Figure: The generated figure object.
     """
     df = pd.read_csv('MonthlySales_Data.csv')
     corr = df[['sales_volume_units', 'revenue_million_usd', 'average_price_per_unit_usd']].corr()
     
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(corr, annot=True, cmap='coolwarm', center=0, fmt='.2f', linewidths=0.5)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.heatmap(corr, annot=True, cmap='coolwarm', center=0, fmt='.2f', linewidths=0.5, ax=ax)
     plt.title('Correlation Heatmap')
-    plt.show()
+    return fig
 
 @tool
 def monthly_summary():
@@ -194,6 +222,11 @@ def monthly_summary():
     })
     summary.columns = ['_'.join(col).strip() for col in summary.columns.values]
     return summary.reset_index()
+
+
+
+
+
 
 @tool
 def yearly_summary():
