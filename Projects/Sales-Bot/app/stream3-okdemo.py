@@ -37,6 +37,8 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input(placeholder="What is this data about?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "system", "content": "whenever the question is about plot, chart, visualization, visual, \
+                                      in addition to the data always give python code to generate the required plots"})
     st.chat_message("user").write(prompt)
 
     llm = ChatOpenAI(
