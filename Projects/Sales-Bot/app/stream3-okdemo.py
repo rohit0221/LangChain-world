@@ -50,7 +50,11 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input(placeholder="What is this data about?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.messages.append({"role": "system", "content": "whenever the question is about plot, chart, visualization, visual, \
-                                      in addition to the data always give python code to generate the required plots"})
+                                      in addition to the data always give python code to generate the required plots\
+                                      In your python code always define the dataframe df. Never assume that it already is defined.\
+                                      Your code must NEVER ever say 'Assuming df is already defined'\
+                                      when asked to plot multiple graphs or plots. plot them all one by one. \
+                                      Never miss them. in each code define the dataframe as df = pd.DataFrame(data) first"})
     st.chat_message("user").write(prompt)
 
     llm = ChatOpenAI(
