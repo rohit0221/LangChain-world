@@ -15,10 +15,12 @@ from langchain.agents import AgentType
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
-MonthlySales_df = pd.read_csv('MonthlySales_Data.csv')
-RegionalSales_df = pd.read_csv('RegionalSales_Data.csv')
+# MonthlySales_df = pd.read_csv('MonthlySales_Data.csv')
+# RegionalSales_df = pd.read_csv('RegionalSales_Data.csv')
 
-print(MonthlySales_df)
+df = pd.read_csv('finance.csv')
+
+print(df)
 from MonthlySales_Data import *
 # MonthlySales_agent_executor.invoke({
 #     "input": "Give me the sales data for the year 2021."
@@ -30,7 +32,7 @@ llm = ChatOpenAI(
 
 pandas_df_agent = create_pandas_dataframe_agent(
     llm,
-    MonthlySales_df,
+    df,
     verbose=True,
     agent_type=AgentType.OPENAI_FUNCTIONS,
     handle_parsing_errors=True,

@@ -37,7 +37,9 @@ def is_valid_code(code: str) -> bool:
 st.set_page_config(page_title="LangChain: Chat with pandas DataFrame", page_icon="🦜")
 st.title("🦜 LangChain: Chat with pandas DataFrame")
 
-df = pd.read_csv('MonthlySales_Data.csv')
+# df = pd.read_csv('MonthlySales_Data.csv')
+
+df = pd.read_csv('finance.csv')
 
 openai_api_key = os.environ.get('OPENAI_API_KEY')
 
@@ -49,7 +51,11 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input(placeholder="What is this data about?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.messages.append({"role": "system", "content": "If the question is about plot, chart, visualization, visual, \
+    st.session_state.messages.append({"role": "system", "content": "Always use full data. Never truncate data.\
+                                      Create outputs with complete data that is enquired\
+                                      While giving out data try to use tables and charts as much as possible.\
+                                      Always pass the dataframe df while creating python code to create visualizations\
+                                      If the question is about plot, chart, visualization, visual, \
                                       in addition to the data always give python code to generate the required plots\
                                       If the question is not about plotting or visualizations, provide data from the dataframe without code\
                                       In case you decide to write python code instead of data\
