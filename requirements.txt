@@ -25,3 +25,4 @@ numexpr
 cassio
 pandas
 seaborn
+langchain_experimental
