@@ -34,4 +34,5 @@ pymupdf
 unstructured[pdf]
 python-magic-bin
 firecrawl-py
+langchain-text-splitters
 
