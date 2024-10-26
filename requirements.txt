@@ -33,5 +33,5 @@ tools
 pymupdf
 unstructured[pdf]
 python-magic-bin
-
+firecrawl-py
 
