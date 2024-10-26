@@ -26,4 +26,12 @@ cassio
 pandas
 seaborn
 langchain_experimental
+langchain-unstructured
+fitz
+frontend
+tools
+pymupdf
+unstructured[pdf]
+python-magic-bin
+
 
